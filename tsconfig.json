@@ -18,7 +18,8 @@
     "paths": {
       "@socket/*": ["server/socket/*"], // Define custom import paths (e.g., import "@socket/socketFile")
       "@express/*": ["server/express/*"],
-      "@client/*": ["client/*"] // Define custom import paths for Express-related files
+      "@client/*": ["client/*"], // Define custom import paths for Express-related files
+      "@assets/*": ["client/assets"]
     }
   },
   "include": ["src"]

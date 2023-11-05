@@ -2,13 +2,30 @@ import { useEffect, useRef } from 'react';
 import './GameMain.css';
 import { LoginModal } from './components/LoginModal/LoginModal';
 import { StartModal } from './components/StartModal';
+import Starfield from 'client/assets/starfield.jpeg';
 
 export function GameMain() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
+
+    const resizeCanvas = () => {
+      if (canvas && context) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+    };
+
+    resizeCanvas(); // Call the function once to set initial dimensions
+
+    window.addEventListener('resize', resizeCanvas);
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+    };
   });
+
   return (
     <>
       <div id="container">
@@ -18,6 +35,7 @@ export function GameMain() {
             id="the-canvas"
             width={window.innerWidth}
             height={window.innerHeight}
+            style={{ background: `url(${Starfield})` }}
           >
             {/* <!-- our drawing will go here --> */}
           </canvas>
