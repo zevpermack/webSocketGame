@@ -1,1 +1,1 @@
-import { app } from 'main';
+import { app } from 'server/main';

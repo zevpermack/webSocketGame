@@ -1,1 +1,1 @@
-import { io } from 'main';
+import { io } from 'server/main';
