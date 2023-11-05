@@ -13,7 +13,12 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": "./src/server", // Set your base directory for imports
+    "paths": {
+      "@socket/*": ["socket/*"], // Define custom import paths (e.g., import "@socket/socketFile")
+      "@express/*": ["express/*"] // Define custom import paths for Express-related files
+    }
   },
   "include": ["src"]
 }
