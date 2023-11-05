@@ -3,28 +3,12 @@ import './GameMain.css';
 import { LoginModal } from './components/LoginModal/LoginModal';
 import { StartModal } from './components/StartModal';
 import Starfield from 'client/assets/starfield.jpeg';
+import { useCanvasSizing } from './hooks/useCanvasSizing';
 
 export function GameMain() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext('2d');
 
-    const resizeCanvas = () => {
-      if (canvas && context) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-    };
-
-    resizeCanvas(); // Call the function once to set initial dimensions
-
-    window.addEventListener('resize', resizeCanvas);
-
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-    };
-  });
+  useCanvasSizing({ canvasRef });
 
   return (
     <>
