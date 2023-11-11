@@ -1,34 +1,52 @@
-import React from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import React, { useState } from 'react';
+import styles from './LoginModal.module.css';
+import classNames from 'classnames';
+import GitHubBackgroundImage from '@client/assets/GitHub-Mark-32px.png';
 
 export function LoginModal() {
-  console.log('it"s on the mothafucking page');
+  const [showModal, setShowModal] = useState(true);
+
+  function handleModalClose() {
+    setShowModal(false);
+  }
+
+  const modalClassName = classNames(styles.loginModal, {
+    [styles.modalHidden]: !showModal,
+  });
 
   return (
-    <Modal show={true} onHide={() => {}}>
-      <Modal.Header closeButton>
-        <Modal.Title>Agar Clone</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Button variant="primary" className="btn-github">
-          Login with GitHub
-        </Button>
-        <Form className="name-form">
-          <div className="text-center error-message"></div>
-          <Button type="submit" className="btn play-button play-guest">
+    <div className={modalClassName} tabIndex={-1}>
+      <div className={styles.modalHeader}>
+        <h5 className={styles.modalTitle}>Bubble Time</h5>
+        <button
+          type="button"
+          onClick={handleModalClose}
+          className={styles.btnClose}
+          aria-label="Close"
+        >
+          X
+        </button>
+      </div>
+      <div className={styles.modalBody}>
+        <button type="submit" className={styles.githubBtn}>
+          Login with github
+        </button>
+        <form className={styles.nameForm}>
+          <div className={styles.errorMessage}></div>
+          <button type="submit" className={styles.playAsGuestBtn}>
             Play as Guest
-          </Button>
-          <Form.Control
+          </button>
+          <input
             id="name-input"
-            className="text-input text-center"
+            className={styles.nameInput}
             type="text"
             name="name-input"
             placeholder="Enter your name here"
             required
           />
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
+        </form>
+      </div>
+      <div className={styles.modalFooter}>
         <div id="instructions">
           <label id="how-to-play">How to play:</label>
           <ul>
@@ -44,10 +62,14 @@ export function LoginModal() {
             <li>The larger player absorbs the smaller player.</li>
           </ul>
         </div>
-        <Button variant="secondary" onClick={() => {}}>
+        <button
+          type="button"
+          className={styles.secondaryBtn}
+          data-bs-dismiss="modal"
+        >
           Close
-        </Button>
-      </Modal.Footer>
-    </Modal>
+        </button>
+      </div>
+    </div>
   );
 }

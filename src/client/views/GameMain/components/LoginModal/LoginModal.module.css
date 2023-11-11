@@ -1,0 +1,93 @@
+/* LoginModal.module.css */
+
+.loginModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.modalHidden {
+  display: none;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+/* LoginModal.module.css */
+
+.btnClose {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #24292e; /* Adjust the color to make it visible on the background */
+}
+
+.modalBody {
+  margin-top: 20px;
+}
+
+.githubBtn,
+.playAsGuestBtn {
+  background-color: #24292e;
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.nameForm {
+  text-align: center;
+}
+
+.errorMessage {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.nameInput {
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.modalFooter {
+  margin-top: 20px;
+}
+
+.secondaryBtn {
+  background-color: #6c757d;
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+}
+
+#instructions {
+  margin-bottom: 20px;
+}
+
+#how-to-play {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Add more styles as needed for your specific elements */
