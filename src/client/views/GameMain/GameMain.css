@@ -1,3 +1,7 @@
 #the-canvas {
   background: url('./starfield.jpeg');
 }
+
+#container {
+  position: relative;
+}

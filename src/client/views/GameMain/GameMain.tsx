@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './GameMain.css';
 import { LoginModal } from './components/LoginModal/LoginModal';
 import { StartModal } from './components/StartModal';
@@ -7,6 +7,7 @@ import { useCanvasSizing } from './hooks/useCanvasSizing';
 
 export function GameMain() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const player = useState({});
 
   useCanvasSizing({ canvasRef });
 
@@ -52,14 +53,13 @@ export function GameMain() {
               </div>
             </div>
           </div>
-          <div id="game-message-wrapper">
-            <button className="btn btn-primary">FUCK</button>
+          {/* <div id="game-message-wrapper">
             <div id="game-message">some game message place holder thing</div>
-          </div>
+          </div> */}
         </div>
+        <LoginModal />
+        {/* <StartModal /> */}
       </div>
-      <LoginModal />
-      <StartModal />
     </>
   );
 }
