@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
 import styles from './LoginModal.module.css';
-import classNames from 'classnames';
 import GitHubBackgroundImage from '@client/assets/GitHub-Mark-32px.png';
+import { GameState, Player } from '@client/views/GameMain/types';
+import { useForm } from 'react-hook-form';
+import { SubmitHandler } from 'react-hook-form';
+interface LoginModalProps {
+  handleClose(gameState: GameState): void;
+  onSubmit: SubmitHandler<Player>;
+}
 
-export function LoginModal() {
-  const [showModal, setShowModal] = useState(true);
-
-  function handleModalClose() {
-    setShowModal(false);
-  }
-
-  const modalClassName = classNames(styles.loginModal, {
-    [styles.modalHidden]: !showModal,
-  });
+export function LoginModal({ handleClose, onSubmit }: LoginModalProps) {
+  const { register, handleSubmit } = useForm<Player>();
 
   return (
-    <div className={modalClassName} tabIndex={-1}>
+    <>
       <div className={styles.modalHeader}>
         <h5 className={styles.modalTitle}>Bubble Time</h5>
         <button
           type="button"
-          onClick={handleModalClose}
+          onClick={() => handleClose}
           className={styles.btnClose}
           aria-label="Close"
         >
@@ -31,13 +29,13 @@ export function LoginModal() {
         <button type="submit" className={styles.githubBtn}>
           Login with github
         </button>
-        <form className={styles.nameForm}>
+        <form className={styles.nameForm} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.errorMessage}></div>
           <button type="submit" className={styles.playAsGuestBtn}>
             Play as Guest
           </button>
           <input
-            id="name-input"
+            {...register('playerName')}
             className={styles.nameInput}
             type="text"
             name="name-input"
@@ -47,7 +45,7 @@ export function LoginModal() {
         </form>
       </div>
       <div className={styles.modalFooter}>
-        <div id="instructions">
+        <div className={styles.instructions}>
           <label id="how-to-play">How to play:</label>
           <ul>
             <li>Move your mouse on the screen to move your character.</li>
@@ -70,6 +68,6 @@ export function LoginModal() {
           Close
         </button>
       </div>
-    </div>
+    </>
   );
 }
