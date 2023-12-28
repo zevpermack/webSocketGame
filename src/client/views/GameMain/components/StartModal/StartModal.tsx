@@ -1,49 +1,59 @@
 import React from 'react';
+import styles from './StartModal.module.css';
 
-export function StartModal() {
+interface StartModalProps {
+  playerName: string;
+  onClick(): void;
+}
+
+export function StartModal({ playerName, onClick }: StartModalProps) {
   return (
-    <div id="spawnModal" className="modal fade" tabIndex={-1}>
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Agar Clone</h5>
+    <div className={styles.modal} tabIndex={-1}>
+      <div className={styles.modalDialog}>
+        <div className={styles.modalContent}>
+          <div className={styles.modalHeader}>
+            <h5 className={styles.modalTitle}>Agar Clone</h5>
             <button
               type="button"
-              className="btn-close"
+              className={styles.btnClose}
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div className="modal-body">
-            <h3 className="text-center">
-              Hello, <span className="player-name"></span>!
+          <div className={styles.modalBody}>
+            <h3 className={styles.textCenter}>
+              Hello, <span className={styles.playerName}>{playerName}</span>!
             </h3>
-            <div className="play-btn-wrapper">
+            <div className={styles.playBtnWrapper}>
               <button
                 id="join-team-btn"
                 type="button"
-                className="btn play-button"
+                className={styles.btnPlayButton}
               >
                 Join a Team!
               </button>
               <button
                 id="play-solo-btn"
                 type="button"
-                className="btn play-button start-game"
+                className={`${styles.btnPlayButton} ${styles.startGame}`}
+                onClick={onClick}
               >
                 Play Solo!
               </button>
             </div>
-            <div className="stats-btn-wrapper">
-              <button type="button" className="btn stats-btn player-stats-btn">
+            <div className={styles.statsBtnWrapper}>
+              <button
+                type="button"
+                className={styles.btnStatsBtnPlayerStatsBtn}
+              >
                 See your stats
               </button>
-              <button type="button" className="btn stats-btn all-stats-btn">
+              <button type="button" className={styles.btnStatsBtnAllStatsBtn}>
                 See all stats
               </button>
             </div>
           </div>
-          <div className="modal-footer">
+          <div className={styles.modalFooter}>
             <div id="instructions">
               <label id="how-to-play">How to play:</label>
               <ul>

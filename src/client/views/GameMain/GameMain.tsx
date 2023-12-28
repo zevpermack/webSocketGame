@@ -1,33 +1,48 @@
-import { useEffect, useRef, useState } from 'react';
+import Starfield from 'client/assets/starfield.jpeg';
+import { useRef, useState } from 'react';
+
 import './GameMain.module.css';
+import styles from './GameMain.module.css';
 import { LoginModal } from './components/LoginModal/LoginModal';
 import { StartModal } from './components/StartModal';
-import Starfield from 'client/assets/starfield.jpeg';
 import { useCanvasSizing } from './hooks/useCanvasSizing';
-import { GameState } from './types';
-import styles from './GameMain.module.css';
-import classNames from 'classnames';
-import { Player } from './types';
-import { SubmitHandler } from 'react-hook-form';
+import { usePlayerMovement } from './hooks/usePlayerMovement';
+import { GameState, Player } from './types';
+import { PlayerCharacter } from './utils/createPlayer';
+import { useFetchOrbs } from './hooks/useFetchOrbs';
+import { Orb } from './utils/Orb';
 
 export function GameMain() {
-  const [gameState, setGameState] = useState<GameState>('LOGIN');
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  //Game state should be set to login
+  const [gameState, setGameState] = useState<GameState>('PLAYING');
   const [player, setPlayer] = useState<Player>({ playerName: '' });
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const context = useCanvasSizing({ canvasRef });
+  const serverOrbs = useFetchOrbs();
 
-  const handleLoginFormSubmit: SubmitHandler<Player> = (data: Player) => {
+  const handleLoginFormSubmit = (data: Player) => {
     setPlayer((prev) => ({ ...prev, playerName: data.playerName }));
+    setGameState('READY');
   };
 
-  useCanvasSizing({ canvasRef });
+  const localPlayer = new PlayerCharacter(context, serverOrbs);
 
-  function onGameStateChange(newState: GameState) {
-    setGameState(newState);
+  if (canvasRef) {
+    usePlayerMovement({
+      player,
+      canvas: canvasRef.current,
+      gameState,
+      localPlayer,
+    });
   }
 
-  const loginModalClassName = classNames(styles.loginModal, {
-    [styles.modalHidden]: gameState !== 'LOGIN',
-  });
+  function closeLoginModal() {
+    setGameState('READY');
+  }
+
+  function playSoloOnClick() {
+    setGameState('PLAYING');
+  }
 
   return (
     <>
@@ -38,13 +53,16 @@ export function GameMain() {
             id="the-canvas"
             width={window.innerWidth}
             height={window.innerHeight}
-            style={{ background: `url(${Starfield})` }}
+            style={{
+              background: `url(${Starfield})`,
+              boxSizing: 'border-box',
+            }}
           >
             {/* <!-- our drawing will go here --> */}
           </canvas>
           <div className={styles.scoreWrapper}>
             <p>
-              Score: <span className="player-score"></span>
+              Score: <span className={styles.playerScore}></span>
             </p>
           </div>
           <div className={styles.leaderBoardWrapper} hidden>
@@ -56,32 +74,33 @@ export function GameMain() {
               </ol>
               <hr />
             </div>
-            <div id="sort-wrapper">
-              <div id="sort-header" className="text-center">
-                SORT BY
-              </div>
-              <div id="sort-score" className="sort-option active">
-                Score
-              </div>
-              <div id="sort-orbs" className="sort-option">
-                Orbs
-              </div>
-              <div id="sort-players" className="sort-option">
-                Players
-              </div>
+            <div className={styles.sortWrapper}>
+              <div className={styles.sortHeading}>SORT BY</div>
+              <div className={styles.sortOption}>Score</div>
+              <div className={styles.sortOption}>Orbs</div>
+              <div className={styles.sortOption}>Players</div>
             </div>
           </div>
           {/* <div id="game-message-wrapper">
             <div id="game-message">some game message place holder thing</div>
           </div> */}
         </div>
-        <div className={loginModalClassName} tabIndex={-1}>
-          <LoginModal
-            handleClose={() => onGameStateChange('READY')}
-            onSubmit={handleLoginFormSubmit}
-          />
-        </div>
-        <div className="startModalWrapper">{/* <StartModal /> */}</div>
+        {gameState === 'LOGIN' && (
+          <div className={styles.modal} tabIndex={-1}>
+            <LoginModal
+              handleClose={() => closeLoginModal()}
+              onSubmit={handleLoginFormSubmit}
+            />
+          </div>
+        )}
+        {gameState === 'READY' && (
+          <div className={styles.modal} tabIndex={-1}>
+            <StartModal
+              playerName={player.playerName}
+              onClick={playSoloOnClick}
+            />
+          </div>
+        )}
       </div>
     </>
   );

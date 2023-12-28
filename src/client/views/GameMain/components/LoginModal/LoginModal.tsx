@@ -5,7 +5,7 @@ import { GameState, Player } from '@client/views/GameMain/types';
 import { useForm } from 'react-hook-form';
 import { SubmitHandler } from 'react-hook-form';
 interface LoginModalProps {
-  handleClose(gameState: GameState): void;
+  handleClose(): void;
   onSubmit: SubmitHandler<Player>;
 }
 
@@ -18,7 +18,7 @@ export function LoginModal({ handleClose, onSubmit }: LoginModalProps) {
         <h5 className={styles.modalTitle}>Bubble Time</h5>
         <button
           type="button"
-          onClick={() => handleClose}
+          onClick={() => handleClose()}
           className={styles.btnClose}
           aria-label="Close"
         >
@@ -36,11 +36,10 @@ export function LoginModal({ handleClose, onSubmit }: LoginModalProps) {
           </button>
           <input
             {...register('playerName')}
+            required={true}
             className={styles.nameInput}
             type="text"
-            name="name-input"
             placeholder="Enter your name here"
-            required
           />
         </form>
       </div>
