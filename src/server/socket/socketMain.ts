@@ -1,5 +1,8 @@
 import { ioServer } from 'server/main';
 import { Orb } from './classes/Orb';
+import { PlayerConfig } from './classes/PlayerConfig';
+import { PlayerData } from './classes/PlayerData';
+import { Player } from './classes/Player';
 const orbs: Orb[] = [];
 
 export type gameSettings = {
@@ -35,10 +38,14 @@ function initGame() {
 export function onConnect(io: ioServer) {
   console.log('A user connected');
   io.on('connection', (socket) => {
+    const playerName = 'Donald Darko';
+    // playerConfig is data that every player needs to know
+    const playerConfig = new PlayerConfig(settings);
+    // playerData is data that only this player needs to know
+    const playerData = new PlayerData(playerName, settings);
+    // masterPlayerObject has both
+    const player = new Player(socket.id, playerConfig, playerData);
     socket.emit('init', {
-      // playerConfig is data that every player needs to know
-      // playerData is data that only this player needs to know
-      // masterPlayerObject has both
       orbs,
     });
     socket.on('message', (message) => {
